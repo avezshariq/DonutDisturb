@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+<h1>Bon Apetit</h1>
+<div class="menu">
+    <div class="menu-sidebar">
+        {% for category in data_dict.keys() %}
+            <a href="#{{category}}">{{category}}</a>
+        {% endfor %}
+    </div>
+    <form action="/menu" method="POST">
+        <div class="menu-items">
+            {% for key, value in data_dict.items() %}
+                <h2 id="{{key}}">{{key}}</h2>
+                {% for item in value %}
+                <div class="item">
+                    <p>{{item[0]}}</p>
+                    <p>{{item[1]}}</p>
+                    <input type="number" name="{{item[0]}}" value="0" min="0">
+                </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <input type="submit" value="Place Order">
+    </form>
+</div>
+{% endblock %}

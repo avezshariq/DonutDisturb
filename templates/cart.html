@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+    </tr>
+    {% for item in order_items %}
+        <tr>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            <td>{{item[3]}}</td>
+        </tr>
+    {% endfor %}
+</table>
+<form action="/cart" method="POST">
+    <input type="text" name="coupon" placeholder="Coupon code please">
+    <input type="submit" value="Apply Coupon" />
+</form>
+<p id="billing">
+    Sub Total = {{sub_total}}
+    <br/>
+    {% if disc %}
+    Discount @ {{disc}} % = {{discount}}
+    <br/>
+    {% endif %}
+    Tax @ 15% = {{tax}}
+</p>
+
+<h4>Grand Total = {{grand_total}}</h4>
+<a href="/pay" id="button">Make Payment</a>
+{% endblock %}

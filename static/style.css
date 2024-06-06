@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
+
+body {
+    font-family: "Slabo 27px", serif;
+    background-color: #f5f3c5;
+    background-image: linear-gradient(90deg, #eeedd3, #f5f3c5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+.menu-sidebar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 10rem;
+    margin: 0 5rem;
+}
+.menu-sidebar a {
+    padding: 2rem 1rem;
+}
+
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between; 
+    padding: 1rem;
+}
+.item p {
+    padding: 0 1rem;
+}
+
+a{
+    color: inherit;
+}
+
+table {
+    text-align: center;
+    background-color: #f7c4c4;
+    border: 0.3rem solid #c59393;
+    border-radius: 1rem;
+    box-shadow: 1rem 1rem 1.5rem #b2b090;
+    margin: 1rem;
+}
+
+td, th {
+    padding: 0.5rem 1rem;
+}
+
+input {
+    font-family: inherit;
+    background-color: #f7c4c4;
+    border: 0.1rem solid #c59393;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.5rem;
+}
+
+#billing {
+    text-align: right;
+}
+
+#button {
+    background-color: #438271;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+#button:hover {
+    background-color: #106c53;
+
+}
+
