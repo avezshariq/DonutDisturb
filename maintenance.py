@@ -162,3 +162,6 @@ if __name__ == "__main__":
     create_table(db_name=db_name, table_name="coupon", schema=coupon_schema)
     data = [("RANDOMDISC", str(random.randint(10, 30)))]
     insert_data(db_name=db_name, table_name="coupon", data=data)
+
+    # sale
+    

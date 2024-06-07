@@ -1,14 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
+
+:root {
+    --light-yellow: #FBF3D5;
+    --dark-yellow: #96907c;
+    --dark-orange: #EFBC9B;
+    --darker-orange: #af7e5d;
+    --light-green: #D6DAC8;
+    --dark-green: #9CAFAA;
+}
 
 body {
-    font-family: "Slabo 27px", serif;
-    background-color: #f5f3c5;
-    background-image: linear-gradient(90deg, #eeedd3, #f5f3c5);
+    font-family: "Dosis", sans-serif;
+    background-color: var(--light-yellow);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 header {
+    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
     width: 90%;
@@ -27,9 +36,11 @@ header {
     left: 0;
     top: 10rem;
     margin: 0 5rem;
+    align-items: center;
 }
 .menu-sidebar a {
-    padding: 2rem 1rem;
+    padding: 0.5rem;
+    margin: 1rem;
 }
 
 .menu-items {
@@ -41,7 +52,7 @@ header {
 .item {
     display: flex;
     justify-content: space-between; 
-    padding: 1rem;
+    padding: 0.5rem 1rem;
 }
 .item p {
     padding: 0 1rem;
@@ -53,10 +64,9 @@ a{
 
 table {
     text-align: center;
-    background-color: #f7c4c4;
-    border: 0.3rem solid #c59393;
+    background-color: var(--dark-green);
+    border: 0.3rem solid var(--light-green);
     border-radius: 1rem;
-    box-shadow: 1rem 1rem 1.5rem #b2b090;
     margin: 1rem;
 }
 
@@ -64,28 +74,72 @@ td, th {
     padding: 0.5rem 1rem;
 }
 
-input {
+input, select {
     font-family: inherit;
-    background-color: #f7c4c4;
-    border: 0.1rem solid #c59393;
+    background-color: var(--light-green);
+    border: none;
     border-radius: 0.5rem;
     padding: 0.3rem 0.5rem;
+    margin: 0.2rem 0;
+}
+
+
+input[type=submit], select {
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: var(--dark-green);
 }
 
 #billing {
     text-align: right;
 }
 
-#button {
-    background-color: #438271;
-    color: white;
+a {
+    background-color: var(--dark-orange);
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
 }
 
-#button:hover {
-    background-color: #106c53;
+a:hover {
+    background-color: var(--darker-orange);
+    color: white;
+    
+}
+
+.pay {
+    background-color: var(--dark-green);
+    border: 0.3rem solid var(--light-green);
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
 
 }
 
+#all-options {
+    display: flex;
+    justify-content: space-between;
+}
+
+#all-options img {
+    max-height: 3rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+#pay-submit:hover {
+    background-color: var(--dark-orange);
+}
+
+form img {
+    max-width: 8rem;
+}

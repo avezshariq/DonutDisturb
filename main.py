@@ -21,13 +21,15 @@ def menu():
 def cart():
     order_items = session.get('order_items', {})
     buy_items = [(key, value) for key, value in order_items.items() if value != '0']
+    if not buy_items:
+        return render_template('empty.html')
     item_prices = maintenance.get_all_prices()
     item_prices_dict = {item:price for item, price in item_prices}
     print(f'{buy_items = }')
     print(f'{item_prices = }')
     buy_items_with_price = [(x, y, item_prices_dict[x], int(y)*float(item_prices_dict[x])) for x, y in buy_items]
     sub_total = sum(val for x, y, z, val in buy_items_with_price)
-    discount = 0
+    disc = discount = 0
     if request.method == 'POST':
         coupon_name = request.form.get('coupon', None)
         disc = maintenance.get_discount(coupon_name=coupon_name)
@@ -37,9 +39,19 @@ def cart():
     session['grand_total'] = grand_total
     return render_template('cart.html', order_items=buy_items_with_price, sub_total=f'{sub_total:.2f}', disc=disc, discount=f'{discount:.2f}', tax=f'{tax:.2f}', grand_total=f'{grand_total:.2f}')
 
-@app.route('/pay')
+@app.route('/pay', methods=['GET', 'POST'])
 def pay():
-    return 'Payment'
+    transaction_amount = session['grand_total']
+    choice = 'upi'
+    if request.method == 'POST':
+        form_data = request.form.to_dict()
+        choice = list(form_data.keys())[0]
+    return render_template('pay.html', choice=choice, transaction_amount=transaction_amount)
+
+@app.route('/invoice')
+def invoice():
+    transaction_amount = session['grand_total']
+    return 'Invoice'
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="pay">
+    <h1>Select Payment Method</h1>
+    <div id="all-options">
+        <div class="options">
+            <img src="{{url_for('static', filename='/icons/credit_card.png')}}" />
+            <form action="/pay" method="POST">
+                <input type="hidden" name="credit_card" value="true" />
+                <br/>
+                <input type="submit" value="Credit Card" id="pay-submit"/>
+            </form>
+        </div>
+        <div class="options">
+            <img src="{{url_for('static', filename='/icons/net.png')}}" />
+            <form action="/pay" method="POST">
+                <input type="hidden" name="net_banking" value="true" />
+                <br/>
+                <input type="submit" value="Net Banking" id="pay-submit"/>
+            </form>
+        </div>
+        <div class="options">
+            <img src="{{url_for('static', filename='/icons/upi.png')}}" />
+            <form action="/pay" method="POST">
+                <input type="hidden" name="upi" value="true" />
+                <br/>
+                <input type="submit" value="UPI" id="pay-submit"/>
+            </form>
+        </div>
+        <div class="options">
+            <img src="{{url_for('static', filename='/icons/debit_card.png')}}" />
+            <form action="/pay" method="POST">
+                <input type="hidden" name="debit_card" value="true" />
+                <br/>
+                <input type="submit" value="Debit Card" id="pay-submit"/>
+            </form>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="pay">
+    {% if choice == 'upi' %}
+    <h3>UPI</h3>
+    <form>
+        <input type="hidden" name="mode_of_payment" value="upi" />
+        <input type="hidden" name="transaction_amount" value="{{transaction_amount}}" />
+        <img src="{{url_for('static', filename='/icons/upi_qr.png')}}" />
+        <br />
+        <input type="checkbox" name="check" required/>
+        <label>I solemnly swear that I have ${{transaction_amount}} in my Sooper secret Swiss bank account</label>
+        <br />
+        <input type="submit" value="Make Payment" id="pay-submit"/>
+    </form>
+    {% elif choice in ['credit_card', 'debit_card'] %}
+        <h3>Card Details</h3>
+        <form>
+            <input type="hidden" name="mode_of_payment" value="card" />
+            <input type="hidden" name="transaction_amount" value="{{transaction_amount}}" />
+            <input type="text" name="name" placeholder="Name on the Card" required/>
+            <br />
+            <input type="tel" name="card_number" placeholder="Card Number" required/>
+            <br />
+            <label>Valid upto</label>
+            <input type="month" name="valid_month" placeholder="01" required/>
+            <br/>
+            <input type="number" name="cvv" placeholder="CVV" required/>
+            <br/>
+            <input type="checkbox" name="check" required/>
+            <label>I solemnly swear that I have ${{transaction_amount}} in my Sooper secret Swiss bank account</label>
+            <br />
+            <input type="submit" value="Make Payment" id="pay-submit"/>
+        </form>
+    {% else %}
+    <h3>Net Banking</h3>
+    <form>
+        <input type="hidden" name="mode_of_payment" value="net_banking" />
+        <input type="hidden" name="transaction_amount" value="{{transaction_amount}}" />
+        <input type="text" name="username" placeholder="Username" required/>
+        <br />
+        <input type="password" name="password" placeholder="Password"  required/>
+        <br/>
+        <select name="bank_name" >
+            <option>Bake Bank</option>
+            <option>Cake Bank</option>
+            <option selected>Fake Bank</option>
+            <option>Lake Bank</option>
+            <option>Make Bank</option>
+            <option>Take Bank</option>
+            <option>Wake Bank</option>
+        </select>
+        <br/>
+        <input type="checkbox" name="check" required/>
+        <label>I solemnly swear that I have ${{transaction_amount}} in my Sooper secret Swiss bank account</label>
+        <br />
+        <input type="submit" value="Make Payment" id="pay-submit"/>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
