@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="account-master">
+    <div class="account">
+        <h1>Create a new account</h1>
+        <br/>
+        <form action="/account" method="POST">
+            <input type="hidden" name="act" value="create" />
+            <input type="email" name="email" placeholder="name@email.com" required/>
+            <br/>
+            <input type="password" name="password" placeholder="SooperSecretPassword" required/>
+            <br/>
+            <input type="password" name="password_again" placeholder="...@g@!n..." required/>
+            <br/>
+            <input type="submit" value="Create Account" id="pay-submit" />
+        </form>
+    </div>
+    <p>or</p>
+    <div class="account">
+        <h1>Sign into your account</h1>
+        <br/>
+        <form action="/account" method="POST">
+            <input type="hidden" name="act" value="access" />
+            <input type="email" name="email" placeholder="name@email.com" required/>
+            <br/>
+            <input type="password" name="password" placeholder="SooperSecretPassword" required/>
+            <br/>
+            <input type="submit" value="Sign In" id="pay-submit" />
+        </form>
+    </div>
+</div>
+{% endblock %}

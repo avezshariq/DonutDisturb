@@ -17,10 +17,10 @@ body {
     align-items: center;
 }
 header {
-    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
-    width: 90%;
+    width: 95%;
+    align-items: center;
 }
 
 .menu {
@@ -142,4 +142,70 @@ a:hover {
 
 form img {
     max-width: 8rem;
+}
+
+.highlights {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--light-green);
+}
+
+.highlights:hover {
+    background-color: var(--dark-green);
+}
+
+.highlights img {
+    border-radius: 1rem;
+    height: 10rem;
+    margin: 0 1rem;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: inherit;
+}
+
+#logo:hover {
+    color: inherit;
+}
+
+#logo img {
+    border-radius: 1rem;
+    height: 5rem;
+    margin-right: 1rem;
+}
+
+#account-master {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.account {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    background-color: var(--dark-green);
+    border: 0.5rem solid var(--light-green);
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.alert-info {
+    background-color: var(--dark-green);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+.alert-error {
+    background-color: var(--darker-orange);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: white;
 }

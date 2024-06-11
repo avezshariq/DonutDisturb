@@ -1,6 +1,7 @@
 import sqlite3
 import os
 import random
+import uuid
 
 
 def create_db(db_name: str = "server") -> None:
@@ -122,6 +123,20 @@ def get_discount(
     conn.close()
     return data[0] if data else 0
 
+def get_user(
+    db_name: str = "server",
+    table_name: str = "users",
+    email:str = ''
+) -> list:
+    conn = sqlite3.connect(f"{db_name}.db")
+    c = conn.cursor()
+    select_stringy = f"SELECT email, password from users where email='{email}'"
+    c.execute(select_stringy)
+    data = c.fetchone()
+    conn.commit()
+    conn.close()
+    return data
+
 
 if __name__ == "__main__":
     db_name = "server"
@@ -141,19 +156,19 @@ if __name__ == "__main__":
     insert_data(db_name=db_name, table_name="category", data=data)
 
     # items
-    item_schema = [("name", "TEXT"), ("price", "FLOAT"), ("category_id", "INTEGER")]
+    item_schema = [("name", "TEXT"), ("price", "FLOAT"), ("category_id", "INTEGER"), ("sold_items", "INTEGER")]
     create_table(db_name=db_name, table_name="item", schema=item_schema)
     data = [
-        ("Veg Pizza", "242", "1"),
-        ("Non-Veg Pizza", "180", "1"),
-        ("Non-Veg Burger", "120", "2"),
-        ("Veg Burger", "80", "2"),
-        ("Choco Cake", "160", "3"),
-        ("Mango Cake", "160", "3"),
-        ("Red Velvet Cake", "160", "3"),
-        ("Mint Mojito", "60", "4"),
-        ("Virgin Mojito", "60", "4"),
-        ("Watermelon Mojito", "60", "4"),
+        ("Veg Pizza", "242", "1", "10"),
+        ("Non-Veg Pizza", "180", "1", "20"),
+        ("Non-Veg Burger", "120", "2", "8"),
+        ("Veg Burger", "80", "2", "12"),
+        ("Choco Cake", "160", "3", "15"),
+        ("Mango Cake", "160", "3", "4"),
+        ("Red Velvet Cake", "160", "3", "9"),
+        ("Mint Mojito", "60", "4", "7"),
+        ("Virgin Mojito", "60", "4", "0"),
+        ("Watermelon Mojito", "60", "4", "0"),
     ]
     insert_data(db_name=db_name, table_name="item", data=data)
 
@@ -164,4 +179,9 @@ if __name__ == "__main__":
     insert_data(db_name=db_name, table_name="coupon", data=data)
 
     # sale
-    
+    sale_schema = [("invoice_id", "TEXT"), ("discount", "INTEGER"), ("grand_total", "FLOAT"), ("payment_method", "TEXT")]
+    create_table(db_name=db_name, table_name="sale", schema=sale_schema)
+    payment_methods = ['credit_card', 'net_banking', 'upi', 'debit_card']
+    for i in range(20):
+        data = [(str(uuid.uuid4()), str(random.randint(0, 30)), str(random.randint(100, 1000)), random.choice(payment_methods))]
+        insert_data(db_name=db_name, table_name="sale", data=data)

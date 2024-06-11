@@ -42,7 +42,7 @@
 <div class="pay">
     {% if choice == 'upi' %}
     <h3>UPI</h3>
-    <form>
+    <form action="/invoice" method="POST">
         <input type="hidden" name="mode_of_payment" value="upi" />
         <input type="hidden" name="transaction_amount" value="{{transaction_amount}}" />
         <img src="{{url_for('static', filename='/icons/upi_qr.png')}}" />
@@ -54,7 +54,7 @@
     </form>
     {% elif choice in ['credit_card', 'debit_card'] %}
         <h3>Card Details</h3>
-        <form>
+        <form action="/invoice" method="POST">
             <input type="hidden" name="mode_of_payment" value="card" />
             <input type="hidden" name="transaction_amount" value="{{transaction_amount}}" />
             <input type="text" name="name" placeholder="Name on the Card" required/>
@@ -73,7 +73,7 @@
         </form>
     {% else %}
     <h3>Net Banking</h3>
-    <form>
+    <form action="/invoice" method="POST">
         <input type="hidden" name="mode_of_payment" value="net_banking" />
         <input type="hidden" name="transaction_amount" value="{{transaction_amount}}" />
         <input type="text" name="username" placeholder="Username" required/>
