@@ -146,7 +146,7 @@ if __name__ == "__main__":
     # users
     users_schema = [("email", "TEXT"), ("password", "TEXT")]
     create_table(db_name=db_name, table_name="users", schema=users_schema)
-    data = [("admin", "admin"), ("avez", "avez")]
+    data = [("admin@admin.com", "admin"), ("avez@avez.com", "avez")]
     insert_data(db_name=db_name, table_name="users", data=data)
 
     # category

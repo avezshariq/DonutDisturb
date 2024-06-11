@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect, session, f
 import maintenance
 import uuid
 
+
 app = Flask(__name__)
 app.secret_key = 'my_sooper_secret_key_in_palce_here'
 
@@ -85,12 +86,17 @@ def account():
                 flash("I know you're in a hurry, but type the passwords correctly", category='error')
         else:
             stored_password = maintenance.get_user(db_name='server', table_name='users', email=the_form['email'])
-            if stored_password[1] == the_form['password']:
-                return 'Login Successful'
+            if stored_password:
+                if stored_password[1] == the_form['password']:
+                    if the_form['email'] == 'admin@admin.com':
+                        return render_template('admin.html')
+                    return 'Login Successful'
+                else:
+                    flash("I'm hungry too. But type the credentials correctly", category='error')
             else:
                 flash('First time? Create account first', category='error')
 
     return render_template('account.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    dash_app.run(debug=True)
