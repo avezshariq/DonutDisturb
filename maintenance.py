@@ -2,6 +2,7 @@ import sqlite3
 import os
 import random
 import uuid
+import datetime
 
 
 def create_db(db_name: str = "server") -> None:
@@ -70,7 +71,6 @@ def insert_data(
             val = '", "'.join(row)
         stringy = f'(NULL, "{val}")'
         insert_stringy = f"INSERT INTO {table_name} VALUES {stringy}"
-        print(insert_stringy)
         c.execute(insert_stringy)
     conn.commit()
     conn.close()
@@ -136,6 +136,109 @@ def get_user(
     conn.commit()
     conn.close()
     return data
+
+def create_bar_chart (labels, data, x_name, y_name):
+    chart = {
+        'type': 'bar',
+        'data':{
+            'labels': labels, 'datasets': [{
+                'label': 'Total Sales',
+                'backgroundColor': '#af7e5d',
+                'data': data
+                }]
+            },
+        'options': {
+                'scales': {
+                    'x': {
+                    'title': {
+                        'display': 'true',
+                        'text': x_name
+                    }
+                    },
+                    'y': {
+                    'title': {
+                        'display': 'true',
+                        'text': y_name
+                    }
+                    }
+                }
+                }
+        }
+    return chart
+
+def create_scatter_chart (labels, data, x_name, y_name):
+    chart = {
+        'type': 'scatter',
+        'data':{
+            'datasets': [{
+                'label': 'Total Sales',
+                'backgroundColor': '#af7e5d',
+                'data': data
+                }]
+            },
+        'options': {
+                'scales': {
+                    'x': {
+                    'title': {
+                        'display': 'true',
+                        'text': x_name
+                    }
+                    },
+                    'y': {
+                    'title': {
+                        'display': 'true',
+                        'text': y_name
+                    }
+                    }
+                }
+                }
+        }
+    return chart
+
+def analytics(db_name: str = "server") -> list[list]:
+    conn = sqlite3.connect(f"{db_name}.db")
+    c = conn.cursor()
+
+    # Number of Users
+    select_stringy = f"SELECT count(*) from users"
+    c.execute(select_stringy)
+    no_of_users = c.fetchone()[0]
+
+    # Payment Methods
+    select_stringy = f"SELECT payment_method, count(*) from sale group by payment_method"
+    c.execute(select_stringy)
+    temp = c.fetchall()
+    labels = [x[0] for x in temp]
+    data = [x[1] for x in temp]
+    payment_methods_chart = create_bar_chart( labels, data, 'Payment Method', 'Number of Sales')
+
+    # Sold Items
+    select_stringy = f"SELECT name, sold_items from item"
+    c.execute(select_stringy)
+    temp = c.fetchall()
+    labels = [x[0] for x in temp]
+    data = [x[1] for x in temp]
+    sold_items_chart = create_bar_chart( labels, data, 'Item', 'Number of units')
+
+    # Payment Methods vs discount
+    select_stringy = f"SELECT discount, grand_total from sale"
+    c.execute(select_stringy)
+    temp = c.fetchall()
+    labels = ['debit_card', 'credit_card', 'net_banking', 'upi']
+    data = [{"x":x[0], "y":x[1]} for x in temp]
+    payment_methods_scatter_chart = create_scatter_chart(labels, data, 'Discount', 'Grand Total')
+
+    # Total Business
+    total_business_list = [x[1] for x in temp]
+    total_business = sum(total_business_list)
+    print(total_business)
+
+    # Total Orders
+    total_orders = len(total_business_list)
+
+    conn.commit()
+    conn.close()
+    return no_of_users, payment_methods_chart, sold_items_chart, payment_methods_scatter_chart, total_business, total_orders
 
 
 if __name__ == "__main__":

@@ -1,5 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-ADMIN
+
+<h1>ADMIN Dashboard</h1>
+<div class="chart-master">
+    <div class="chart">
+        <h3>Number of users</h3>
+        <p>{{no_of_users}}</p>
+        <h3>Total Business</h3>
+        <p>{{total_business}}</p>
+        <h3>Total Orders Served</h3>
+        <p>{{total_orders}}</p>
+    </div>
+    <div class="chart">
+        <h3>Payment Methods</h3>
+        <canvas id="paymentMethodsID"></canvas>
+    </div>
+    <div class="chart">
+        <h3>Sold Items</h3>
+        <canvas id="soldItemsID"></canvas>
+    </div>
+    <div class="chart">
+        <h3>Payment Methods vs Discount</h3>
+        <canvas id="paymentMethodsScatterID"></canvas>
+    </div>
+</div>
+<script>
+    const paymentMethodsJSON = JSON.parse('{{ payment_methods_chart | safe }}');
+    const paymentMethodsCTX = document.getElementById('paymentMethodsID');
+    const paymentMethodsChart = new Chart(paymentMethodsCTX, paymentMethodsJSON);
+
+    const soldItemsJSON = JSON.parse('{{ sold_items_chart | safe }}');
+    const soldItemsCTX = document.getElementById('soldItemsID');
+    const soldItemsChart = new Chart(soldItemsCTX, soldItemsJSON);
+
+    const paymentMethodsScatterJSON = JSON.parse('{{ payment_methods_scatter_chart | safe }}');
+    console.log(paymentMethodsScatterJSON);
+    const paymentMethodsScatterCTX = document.getElementById('paymentMethodsScatterID');
+    const paymentMethodsScatterChart = new Chart(paymentMethodsScatterCTX, paymentMethodsScatterJSON);
+
+
+</script>
 {% endblock %}
+

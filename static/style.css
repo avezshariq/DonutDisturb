@@ -209,3 +209,15 @@ form img {
     border-radius: 0.5rem;
     color: white;
 }
+.chart-master {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.chart {
+    width: 40%;
+    margin: 1rem;
+    background-color: var(--light-green);
+    padding: 1rem;
+    border-radius: 1rem;
+}

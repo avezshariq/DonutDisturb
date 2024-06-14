@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash
 import maintenance
 import uuid
+import json
 
 
 app = Flask(__name__)
@@ -89,7 +90,7 @@ def account():
             if stored_password:
                 if stored_password[1] == the_form['password']:
                     if the_form['email'] == 'admin@admin.com':
-                        return render_template('admin.html')
+                        return redirect(url_for('admin'))
                     return 'Login Successful'
                 else:
                     flash("I'm hungry too. But type the credentials correctly", category='error')
@@ -98,5 +99,10 @@ def account():
 
     return render_template('account.html')
 
+@app.route('/admin')
+def admin():
+    no_of_users, payment_methods_chart, sold_items_chart, payment_methods_scatter_chart, total_business, total_orders = maintenance.analytics(db_name='server')
+    return render_template('admin.html', payment_methods_chart=json.dumps(payment_methods_chart), no_of_users=no_of_users, sold_items_chart=json.dumps(sold_items_chart), payment_methods_scatter_chart=json.dumps(payment_methods_scatter_chart), total_business=total_business, total_orders=total_orders)
+
 if __name__ == '__main__':
-    dash_app.run(debug=True)
+    app.run(debug=True)
