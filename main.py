@@ -2,6 +2,8 @@ from flask import Flask, render_template, url_for, request, redirect, session, f
 import maintenance
 import uuid
 import json
+import bcrypt
+import sqlite3
 
 
 app = Flask(__name__)
@@ -77,21 +79,30 @@ def account():
         if the_form['act'] == 'create':
             if the_form['password'] == the_form['password_again']:
                 data = maintenance.get_user(email=the_form['email'])
-                print(data)
                 if not data:
-                    maintenance.insert_data(db_name='server', table_name="users", data=[(the_form['email'], the_form['password'])])
+                    password = the_form['password'].encode('utf-8')
+                    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+                    print(hashed_password)
+                    conn = sqlite3.connect("server.db")
+                    c = conn.cursor()
+                    insert_stringy = "INSERT INTO users VALUES (NULL, ?, ?)"
+                    c.execute(insert_stringy, (the_form['email'], hashed_password))
+                    conn.commit()
+                    conn.close()
                     flash('Welcome!!! Now start getting disturbed by donuts after login 😋', category='info')
                 else:
                     flash('User already exists', category='error')
             else:
                 flash("I know you're in a hurry, but type the passwords correctly", category='error')
         else:
-            stored_password = maintenance.get_user(db_name='server', table_name='users', email=the_form['email'])
+            stored_password = maintenance.get_user(db_name='server', table_name='users', email=the_form['email'])[1]
             if stored_password:
-                if stored_password[1] == the_form['password']:
+                user_entered_password = the_form['password'].encode('utf-8')
+                check_password_match = bcrypt.checkpw(user_entered_password, stored_password)
+                if check_password_match:
                     if the_form['email'] == 'admin@admin.com':
                         return redirect(url_for('admin'))
-                    return 'Login Successful'
+                    return redirect(url_for('user'))
                 else:
                     flash("I'm hungry too. But type the credentials correctly", category='error')
             else:
@@ -103,6 +114,10 @@ def account():
 def admin():
     no_of_users, payment_methods_chart, sold_items_chart, payment_methods_scatter_chart, total_business, total_orders = maintenance.analytics(db_name='server')
     return render_template('admin.html', payment_methods_chart=json.dumps(payment_methods_chart), no_of_users=no_of_users, sold_items_chart=json.dumps(sold_items_chart), payment_methods_scatter_chart=json.dumps(payment_methods_scatter_chart), total_business=total_business, total_orders=total_orders)
+
+@app.route('/user')
+def user():
+    return 'Login Successful'
 
 if __name__ == '__main__':
     app.run(debug=True)

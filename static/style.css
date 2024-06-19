@@ -23,6 +23,13 @@ header {
     align-items: center;
 }
 
+header div {
+    display: flex;
+    flex-wrap: wrap;
+}
+header div a {
+    margin: 0.5rem 1rem;
+}
 .menu {
     display: flex;
     align-items: center;
@@ -46,13 +53,12 @@ header {
 .menu-items {
     display: flex;
     flex-direction: column;
-    margin: auto;
 }
 
 .item {
     display: flex;
-    justify-content: space-between; 
-    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .item p {
     padding: 0 1rem;
@@ -60,6 +66,7 @@ header {
 
 a{
     color: inherit;
+    margin: 1rem;
 }
 
 table {
@@ -120,6 +127,7 @@ a:hover {
 
 #all-options {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
@@ -146,12 +154,13 @@ form img {
 
 .highlights {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     margin: 1rem;
     padding: 1rem;
     border-radius: 1rem;
     background-color: var(--light-green);
+    height: 10rem;
 }
 
 .highlights:hover {
@@ -162,6 +171,7 @@ form img {
     border-radius: 1rem;
     height: 10rem;
     margin: 0 1rem;
+    height: 100%;
 }
 
 #logo {
@@ -220,4 +230,22 @@ form img {
     background-color: var(--light-green);
     padding: 1rem;
     border-radius: 1rem;
+}
+footer {
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .chart {
+        width: 90%;
+    }
+    .highlights h2 {
+        padding: 0.5rem 1rem;
+    }
+    .menu-sidebar {
+        display: none;
+    }
+    .item p {
+        padding: 0 0.5rem;
+    }
 }

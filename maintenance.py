@@ -3,7 +3,7 @@ import os
 import random
 import uuid
 import datetime
-
+import bcrypt
 
 def create_db(db_name: str = "server") -> None:
     """
@@ -247,10 +247,18 @@ if __name__ == "__main__":
     create_db(db_name=db_name)
 
     # users
-    users_schema = [("email", "TEXT"), ("password", "TEXT")]
+    users_schema = [("email", "TEXT"), ("password", "BINARY")]
     create_table(db_name=db_name, table_name="users", schema=users_schema)
     data = [("admin@admin.com", "admin"), ("avez@avez.com", "avez")]
-    insert_data(db_name=db_name, table_name="users", data=data)
+    conn = sqlite3.connect("server.db")
+    c = conn.cursor()
+    for email, password in data:
+        encoded_password = password.encode('utf-8')
+        hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
+        insert_stringy = "INSERT INTO users VALUES (NULL, ?, ?)"
+        c.execute(insert_stringy, (email, hashed_password))
+    conn.commit()
+    conn.close()
 
     # category
     category_schema = [("name", "TEXT")]

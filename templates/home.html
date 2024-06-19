@@ -4,17 +4,17 @@
 
 {% block content %}
 <div>
-    <div class="highlights">
-        <h2>Order from our exclusive <a href="{{url_for('menu')}}">Menu</a></h2>
+    <a class="highlights" href="{{url_for('menu')}}">
+        <h2>Order from our exclusive Menu</h2>
         <img src="{{url_for('static', filename='menu.jpeg')}}" />
-    </div>
-    <div class="highlights">
+    </a>
+    <a class="highlights" href="{{url_for('cart')}}">
         <img src="{{url_for('static', filename='discount.jpeg')}}" />
-        <h2>Try an exclusive discount coupon at <a href="{{url_for('menu')}}">Checkout</a> - <em>RANDOMDISC</em></h2>
-    </div>
-    <div class="highlights">
-        <h2>Freshly baked Pizzas starting just @ 80 <a href="{{url_for('menu')}}">Order here</a></h2>
+        <h2>Try discount coupon- <em>RANDOMDISC</em></h2>
+    </a>
+    <a class="highlights" href="{{url_for('menu')}}">
+        <h2>Freshly baked Pizzas starting just @80</h2>
         <img src="{{url_for('static', filename='pizza.png')}}" />
-    </div>
+    </a>
 </div>
 {% endblock %}
